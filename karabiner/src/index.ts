@@ -28,7 +28,7 @@ writeToProfile('Default profile', [
   // https://nikitabobko.github.io/AeroSpace/commands
 
   rule('aerospace').manipulators([
-    // switch to window
+    // focus to window
     map('h', {right: '⌘⌥⌃⇧'}).to$('aerospace focus left'),
     map('j', {right: '⌘⌥⌃⇧'}).to$('aerospace focus down'),
     map('k', {right: '⌘⌥⌃⇧'}).to$('aerospace focus up'),
@@ -44,27 +44,37 @@ writeToProfile('Default profile', [
     map('k', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with up'),
     map('l', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with right'),
 
-    // switch to workspace
+    // focus to workspace
     withMapper(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])((k) =>
       map(k, {right: '⌘⌥⌃⇧'}).to$(`aerospace workspace --auto-back-and-forth ${k}`),
     ),
+    // focus to next workspace
+    map('→', {right: '⌘⌥⌃⇧'}).to$('aerospace workspace --wrap-around next'),
+    map('←', {right: '⌘⌥⌃⇧'}).to$('aerospace workspace --wrap-around prev'),
+    // focus to toggle workspace
+    map('⇥', {right: '⌘⌥⌃⇧'}).to$('aerospace workspace-back-and-forth'),
     // move to workspace
     withMapper(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])((k) =>
       map(k, {left: '⌥', right: '⌘⌥⌃⇧'}).to$(`aerospace move-node-to-workspace ${k} && aerospace workspace ${k}`),
     ),
-    // toggle workspace
-    map('⇥', {right: '⌘⌥⌃⇧'}).to$('aerospace workspace-back-and-forth'),
+    // move to next workspace
+    map('→', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move-node-to-workspace --wrap-around next && aerospace workspace --wrap-around next'),
+    map('←', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move-node-to-workspace --wrap-around prev && aerospace workspace --wrap-around prev'),
 
-    // switch to monitor
+    // focus to monitor
     withMapper(['q', 'w', 'e'])((k, i) =>
       map(k, {right: '⌘⌥⌃⇧'}).to$(`aerospace focus-monitor ${i+1}`),
     ),
+    // focus to next monitor
+    map('↓', {right: '⌘⌥⌃⇧'}).to$('aerospace focus-monitor --wrap-around next'),
+    map('↑', {right: '⌘⌥⌃⇧'}).to$('aerospace focus-monitor --wrap-around prev'),
     // move to monitor
     withMapper(['q', 'w', 'e'])((k, i) =>
       map(k, {left: '⌥', right: '⌘⌥⌃⇧'}).to$(`aerospace move-node-to-monitor ${i+1} && aerospace focus-monitor ${i+1}`),
     ),
     // move to next monitor
-    map('⇥', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace workspace-back-and-forth'),
+    map('↓', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move-node-to-monitor --wrap-around next && aerospace focus-monitor --wrap-around next'),
+    map('↑', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move-node-to-monitor --wrap-around prev && aerospace focus-monitor --wrap-around prev'),
 
     // fullscreen
     map('f', {right: '⌘⌥⌃⇧'}).to$('aerospace fullscreen'),
@@ -79,11 +89,23 @@ writeToProfile('Default profile', [
     map('c', {right: '⌘⌥⌃⇧'}).to$('aerospace layout accordion horizontal vertical'),
     map('x', {right: '⌘⌥⌃⇧'}).to$('aerospace flatten-workspace-tree'),
 
-    // close windows
+    // minimize / close windows
+    map('m', {right: '⌘⌥⌃⇧'}).to$('aerospace macos-native-minimize'),
     map('⌫', {right: '⌘⌥⌃⇧'}).to$('aerospace close-all-windows-but-current'),
 
     // disable
     map('d', {right: '⌘⌥⌃⇧'}).to$('aerospace enable toggle'),
+
+    // move app to focused workspace
+    withMapper({
+      'f': 'Finder',
+      'w': 'Warp',
+      'g': 'Google Chrome',
+      'c': 'Code',
+      's': 'Slack',
+      'm': 'Mail',
+    })((k, app) => map(k, {right: '⌘⌥'}).to$(`~/dev/dots/scripts/move-app-to-focused-workspace.sh "${app}"`)),
+
   ]),
 
   simlayer('a', 'aerospace').manipulators([
