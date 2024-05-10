@@ -21,9 +21,11 @@ writeToProfile('Default profile', [
   rule('hyperkey').manipulators([
     map('caps_lock').to('r⌘', {right: '⌥⌃⇧'}).toIfAlone('⎋'),
     map('caps_lock', 'l⌥').to('l⌥', {right: '⌘⌥⌃⇧'}),
+    map('caps_lock', 'l⌘').to('l⌘', {right: '⌘⌥⌃⇧'}),
   ]),
 
   /* aerospace */
+  // https://nikitabobko.github.io/AeroSpace/commands
 
   rule('aerospace').manipulators([
     // switch to window
@@ -36,6 +38,11 @@ writeToProfile('Default profile', [
     map('j', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move down'),
     map('k', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move up'),
     map('l', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace move right'),
+    // join to window
+    map('h', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with left'),
+    map('j', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with down'),
+    map('k', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with up'),
+    map('l', {left: '⌘', right: '⌘⌥⌃⇧'}).to$('aerospace join-with right'),
 
     // switch to workspace
     withMapper(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])((k) =>
@@ -56,6 +63,8 @@ writeToProfile('Default profile', [
     withMapper(['q', 'w', 'e'])((k, i) =>
       map(k, {left: '⌥', right: '⌘⌥⌃⇧'}).to$(`aerospace move-node-to-monitor ${i+1} && aerospace focus-monitor ${i+1}`),
     ),
+    // move to next monitor
+    map('⇥', {left: '⌥', right: '⌘⌥⌃⇧'}).to$('aerospace workspace-back-and-forth'),
 
     // fullscreen
     map('f', {right: '⌘⌥⌃⇧'}).to$('aerospace fullscreen'),
@@ -68,6 +77,13 @@ writeToProfile('Default profile', [
     map('t', {right: '⌘⌥⌃⇧'}).to$('aerospace layout floating tiling'),
     map('v', {right: '⌘⌥⌃⇧'}).to$('aerospace layout tiles vertical horizontal'),
     map('c', {right: '⌘⌥⌃⇧'}).to$('aerospace layout accordion horizontal vertical'),
+    map('x', {right: '⌘⌥⌃⇧'}).to$('aerospace flatten-workspace-tree'),
+
+    // close windows
+    map('⌫', {right: '⌘⌥⌃⇧'}).to$('aerospace close-all-windows-but-current'),
+
+    // disable
+    map('d', {right: '⌘⌥⌃⇧'}).to$('aerospace enable off'),
   ]),
 
   simlayer('a', 'aerospace').manipulators([
