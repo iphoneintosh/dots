@@ -83,7 +83,7 @@ writeToProfile('Default profile', [
     map('⌫', {right: '⌘⌥⌃⇧'}).to$('aerospace close-all-windows-but-current'),
 
     // disable
-    map('d', {right: '⌘⌥⌃⇧'}).to$('aerospace enable off'),
+    map('d', {right: '⌘⌥⌃⇧'}).to$('aerospace enable toggle'),
   ]),
 
   simlayer('a', 'aerospace').manipulators([
