@@ -14,6 +14,24 @@ docs: https://evan-liu.github.io/karabiner.ts/
 */
 
 
+const apps = {
+  'f': 'Finder', // finder
+  't': 'Warp', // terminal
+  'c': 'Google Chrome', // chrome
+  'd': 'Google Chrome Canary', // demo chrome
+  'v': 'Code', // vscode
+  's': 'Slack', // slack
+  'm': 'Mail', // mail
+  'o': 'Obsidian', // obsidian
+  'p': 'Preview', // preview
+  //'k': 'Calendar', // kalendar
+  'r': 'Reminders', // reminders
+  'n': 'Notability', // notability
+  'i': 'Messages', // imessage
+  'a': 'Music', // apple music
+}
+
+
 writeToProfile('Default profile', [
 
   /* hyperkey */
@@ -96,15 +114,11 @@ writeToProfile('Default profile', [
     // disable
     map('d', {right: '⌘⌥⌃⇧'}).to$('aerospace enable toggle'),
 
-    // move app to focused workspace
-    withMapper({
-      'f': 'Finder',
-      'w': 'Warp',
-      'g': 'Google Chrome',
-      'c': 'Code',
-      's': 'Slack',
-      'm': 'Mail',
-    })((k, app) => map(k, {right: '⌘⌥'}).to$(`~/dev/dots/scripts/move-app-to-focused-workspace.sh "${app}"`)),
+    // focus app
+    withMapper(apps)((k, app) => map(k, {right: '⌘'}).to$(`cd ~/dev/dots/scripts && pipenv run python aerospace-cmd-app.py focus "${app}"`)),
+
+    // pull app
+    withMapper(apps)((k, app) => map(k, {right: '⌘⌥'}).to$(`cd ~/dev/dots/scripts && pipenv run python aerospace-cmd-app.py pull "${app}"`)),
 
   ]),
 
